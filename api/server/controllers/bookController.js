@@ -37,7 +37,7 @@ class BookController {
     const book = { title, price, description };
     try {
       const createdBook = await BookService.addBook(book);
-      util.setSuccess(200, "Book successfully added", createdBook);
+      util.setSuccess(201, "Book successfully added", createdBook);
       return util.send(res);
     } catch (error) {
       util.setError(400, error);
@@ -51,7 +51,7 @@ class BookController {
 
     if (!Number(id)) {
       util.setError(400, "Use a numeric value");
-      return send(res);
+      return util.send(res);
     }
 
     try {

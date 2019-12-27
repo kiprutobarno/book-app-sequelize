@@ -12,10 +12,8 @@ const port = process.env.PORT || 8000;
 
 app.use("/api/v1/books", routes);
 
-app.get("*", (req, res) =>
-  res.status(200).send({ message: "Welcome to this API" })
-);
-
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+
+export default app;
