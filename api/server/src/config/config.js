@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-modules.export = {
+module.exports = {
   development: {
     username: "admin",
     password: "admin123",
