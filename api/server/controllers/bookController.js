@@ -17,7 +17,6 @@ class BookController {
       } else {
         util.setError(404, "No books found");
       }
-
       return util.send(res);
     } catch (error) {
       util.setError(400, error);
@@ -82,7 +81,7 @@ class BookController {
       } else {
         util.setSuccess(200, "Success", book);
       }
-      return send(res);
+      return util.send(res);
     } catch (error) {
       util.setError(400, error);
       return util.send(res);
