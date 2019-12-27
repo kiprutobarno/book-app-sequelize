@@ -15,7 +15,7 @@ class BookService {
   /**
    *
    * @param {JSON} book
-   * @returns {Promise<JSON>}
+   * @returns {JSON}
    */
   static async addBook(book) {
     try {
