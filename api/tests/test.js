@@ -8,23 +8,19 @@ describe("Testing book endpoints", () => {
         price: "1000",
         description: "Africa's best seller"
       };
-      try {
-        let res = await chai
-          .request(app)
-          .post("/api/v1/books")
-          .set("Accept", "application/json")
-          .send(book);
-        /**tests */
-        expect(res.status).to.equal(201);
-        expect(res.body.data).to.include({
-          id: 1,
-          title: book.title,
-          price: book.price,
-          description: book.description
-        });
-      } catch (error) {
-        console.log(error);
-      }
+      let res = await chai
+        .request(app)
+        .post("/api/v1/books")
+        .set("Accept", "application/json")
+        .send(book);
+      /**tests */
+      expect(res.status).to.equal(201);
+      expect(res.body.data).to.include({
+        id: 1,
+        title: book.title,
+        price: book.price,
+        description: book.description
+      });
     });
 
     it("Should not create a book with incomplete parameters", async () => {
@@ -32,21 +28,17 @@ describe("Testing book endpoints", () => {
         title: "Thinks Fall Apart",
         price: "1000"
       };
-      try {
-        let res = await chai
-          .request(app)
-          .post("/api/v1/books")
-          .set("Accept", "application/json")
-          .send(book);
+      let res = await chai
+        .request(app)
+        .post("/api/v1/books")
+        .set("Accept", "application/json")
+        .send(book);
 
-        /**tests */
-        expect(res.status).to.equal(400);
-        expect(res.body).to.include({
-          status: "error"
-        });
-      } catch (error) {
-        console.log(error);
-      }
+      /**tests */
+      expect(res.status).to.equal(400);
+      expect(res.body).to.include({
+        status: "error"
+      });
     });
 
     it("Should retrieve all books", async () => {
@@ -151,19 +143,15 @@ describe("Testing book endpoints", () => {
         price: "2000",
         description: "Keit Knowles"
       };
-      try {
-        const { body } = await chai
-          .request(app)
-          .put(`/api/v1/books/${bookId}`)
-          .set("Accept", "application/json")
-          .send(updateBook);
+      const { body } = await chai
+        .request(app)
+        .put(`/api/v1/books/${bookId}`)
+        .set("Accept", "application/json")
+        .send(updateBook);
 
-        /**tests */
-        expect(body.status).to.deep.equal("error");
-        expect(body.message).to.deep.equal("Use a numeric value");
-      } catch (error) {
-        console.log(error);
-      }
+      /**tests */
+      expect(body.status).to.deep.equal("error");
+      expect(body.message).to.deep.equal("Use a numeric value");
     });
 
     it("Should delete a particular book", async () => {
@@ -179,6 +167,18 @@ describe("Testing book endpoints", () => {
       expect(res.body.message).to.deep.equal("Book successfully deleted");
     });
 
+    it("Should not return an error when there are no books", async () => {
+      const { status, body } = await chai
+        .request(app)
+        .get(`/api/v1/books`)
+        .set("Accept", "application/json");
+
+      /**tests */
+      expect(status).to.deep.equal(404);
+      expect(body.status).to.deep.equal("error");
+      expect(body.message).to.deep.equal("No books found");
+    });
+
     it("Should not delete a book with an inexistent id", async () => {
       const bookId = 1000;
       const { status, body } = await chai
@@ -190,6 +190,19 @@ describe("Testing book endpoints", () => {
       expect(status).to.equal(400);
       expect(body.status).to.deep.equal("error");
       expect(body.message).to.deep.equal(`Book with id ${bookId} not found`);
+    });
+
+    it("Should not delete a book with an invalid id", async () => {
+      const bookId = "one";
+      const { status, body } = await chai
+        .request(app)
+        .delete(`/api/v1/books/${bookId}`)
+        .set("Accept", "application/json");
+
+      /**tests */
+      expect(status).to.deep.equal(400);
+      expect(body.status).to.deep.equal("error");
+      expect(body.message).to.deep.equal("Input a numeric value");
     });
   });
 });
