@@ -93,7 +93,7 @@ class BookController {
 
     if (!Number(id)) {
       util.setError(400, "Input a numeric value");
-      util.send(res);
+      return util.send(res);
     }
     try {
       const deleteBook = await BookService.deleteBook(id);
@@ -105,7 +105,7 @@ class BookController {
       return util.send(res);
     } catch (error) {
       util.setError(400, error);
-      util.send(res);
+      return util.send(res);
     }
   }
 }
