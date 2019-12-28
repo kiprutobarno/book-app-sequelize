@@ -1,4 +1,4 @@
-import database from "../src/models";
+import db from "../src/models";
 
 class BookService {
   /**
@@ -6,7 +6,7 @@ class BookService {
    */
   static async getAllBooks() {
     try {
-      return await database.Book.findAll();
+      return await db.Book.findAll();
     } catch (error) {
       throw error;
     }
@@ -19,7 +19,7 @@ class BookService {
    */
   static async addBook(book) {
     try {
-      return await database.Book.create(book);
+      return await db.Book.create(book);
     } catch (error) {
       throw error;
     }
@@ -32,11 +32,11 @@ class BookService {
    */
   static async updateBook(id, book) {
     try {
-      const bookToUpdate = await database.Book.findOne({
+      const bookToUpdate = await db.Book.findOne({
         where: { id: Number(id) }
       });
       if (bookToUpdate) {
-        await database.Book.update(book, {
+        await db.Book.update(book, {
           where: { id: Number(id) }
         });
         return book;
@@ -51,7 +51,7 @@ class BookService {
    */
   static async getBook(id) {
     try {
-      const book = await database.Book.findOne({
+      const book = await db.Book.findOne({
         where: { id: Number(id) }
       });
       return book;
@@ -64,11 +64,11 @@ class BookService {
    */
   static async deleteBook(id) {
     try {
-      const book = await database.Book.findOne({
+      const book = await db.Book.findOne({
         where: { id: Number(id) }
       });
       if (book) {
-        const deletedBook = await database.Book.destroy({
+        const deletedBook = await db.Book.destroy({
           where: { id: Number(id) }
         });
         return deletedBook;
